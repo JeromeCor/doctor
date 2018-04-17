@@ -63,7 +63,7 @@ class DoctorTest(object):
             # (default 60)
             # (tojuvone) Fraser currently needs 120
             time.sleep(120)
-
+            input('paused by user... Press something to go further')
             # injecting host failure...
             # NOTE (umar) add INTERFACE_NAME logic to host injection
             self.fault_management.start()
