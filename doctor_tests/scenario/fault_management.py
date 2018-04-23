@@ -92,9 +92,10 @@ class FaultManagement(object):
 
     def cleanup(self):
         self.log.info('fault management cleanup......')
+        # todo: recode this
+        #self.get_disable_network_log()
+        #self.unset_forced_down_hosts()
 
-        self.get_disable_network_log()
-        self.unset_forced_down_hosts()
         self.inspector.stop()
         self.monitor.stop()
         self.consumer.stop()
