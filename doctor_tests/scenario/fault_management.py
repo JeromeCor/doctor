@@ -100,7 +100,7 @@ class FaultManagement(object):
         self.consumer.stop()
         self.alarm.delete()
         self.instance.delete()
-        self.network.delete()
+        #self.network.delete()
 
     def get_host_info_for_random_vm(self):
         num = random.randint(0, self.conf.instance_count - 1)
