@@ -110,7 +110,7 @@ class DoctorTest(object):
             self.setup()
             if self.conf.test_case == 'all':
                 self.test_fault_management()
-                self.test_maintenance()
+                #self.test_maintenance()
             else:
                 function = 'test_%s' % self.conf.test_case
                 if hasattr(self, function):
