@@ -125,8 +125,8 @@ class DoctorTest(object):
 
     def cleanup(self):
         self.installer.cleanup()
-        self.image.delete()
-        self.user.delete()
+        #self.image.delete()
+        #self.user.delete()
 
 
 def main():
