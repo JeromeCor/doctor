@@ -57,12 +57,12 @@ class LocalInstaller(BaseInstaller):
     def get_vm_ip_from_vmname(self, vmname):
         self.log.info('Get vm ip from vm name in local installer......')
 
-        cmd = " openstack server list --name doctor_vm0 -f value -c Networks | awk '{ print $1 }'" % (hostname)
+        cmd = " openstack server list --name %s -f value -c Networks | awk '{ print $1 }'" % (vmname)
         server = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
         stdout, stderr = server.communicate()
 
         msg = stdout.strip().decode("utf-8")
-        a, vm_ip = msg.split("=")
+        _, vm_ip = msg.split("=")
         vm_ip = vm_ip.replace(",", "")
 
         self.log.info('Get vm_ip:%s from vm_name:%s in local installer'

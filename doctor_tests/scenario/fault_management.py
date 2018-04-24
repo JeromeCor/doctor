@@ -104,6 +104,7 @@ class FaultManagement(object):
         #self.network.delete()
 
     def get_host_info_for_random_vm(self):
+        self.log.info('In get_host_info_for_random_vm')
         num = random.randint(0, self.conf.instance_count - 1)
         vm_name = "%s%d" % (self.conf.instance_basename, num)
 
@@ -112,7 +113,7 @@ class FaultManagement(object):
         server = servers.get(vm_name)
         if not server:
             raise Exception('Can not find instance: vm_name(%s)' % vm_name)
-        #host_name = server.__dict__.get('OS-EXT-SRV-ATTR:hypervisor_hostname')
+        host_name = server.__dict__.get('OS-EXT-SRV-ATTR:hypervisor_hostname')
         vm_ip = self.installer.get_vm_ip_from_vmname(vm_name)
 
         self.log.info('Get the ip : %s for the vm: %s'
