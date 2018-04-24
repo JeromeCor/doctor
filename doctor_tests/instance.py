@@ -77,6 +77,11 @@ class Instance(object):
         self.log.info('instance create start own version......')
         os.system('/vagrant/openstack-scripts-sfc_newton_demo/simple_vms.sh')
         time.sleep(10)
+
+        for i in range(0, self.conf.instance_count):
+            vm_name = "%s%d" % (self.conf.instance_basename, i)
+            self.vm_names.append(vm_name)
+            
         self.servers = \
             {getattr(server, 'name'): server
              for server in self.nova.servers.list()}
