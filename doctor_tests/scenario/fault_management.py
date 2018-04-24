@@ -139,6 +139,8 @@ class FaultManagement(object):
                           'from down_host......')
             return self.disable_network_log
         if self.down_host is not None:
+            self.log.info('info du ssh: self.down_host_ip = %s, self.installer.node_user_name = %s, key_filename= %s'
+                          % (self.down_host.ip, self.installer.node_user_name, self.installer.get_ssh_key_from_installer()))
             client = SSHClient(
                 self.down_host.ip,
                 self.installer.node_user_name,
