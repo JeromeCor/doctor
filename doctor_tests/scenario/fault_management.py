@@ -112,12 +112,12 @@ class FaultManagement(object):
         server = servers.get(vm_name)
         if not server:
             raise Exception('Can not find instance: vm_name(%s)' % vm_name)
-        host_name = server.__dict__.get('OS-EXT-SRV-ATTR:hypervisor_hostname')
-        host_ip = self.installer.get_host_ip_from_hostname(host_name)
+        #host_name = server.__dict__.get('OS-EXT-SRV-ATTR:hypervisor_hostname')
+        vm_ip = self.installer.get_vm_ip_from_vmname(vm_name)
 
-        self.log.info('Get host info(name:%s, ip:%s) which vm(%s) launched at'
-                      % (host_name, host_ip, vm_name))
-        return Host(host_name, host_ip)
+        self.log.info('Get the ip : %s for the vm: %s'
+                      % (vm_ip, vm_name))
+        return Host(vm_name, vm_ip)
 
     def unset_forced_down_hosts(self):
         if self.down_host:

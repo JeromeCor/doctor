@@ -39,7 +39,8 @@ class LocalInstaller(BaseInstaller):
     def get_ssh_key_from_installer(self):
         self.log.info('Assuming SSH keys already exchanged with computer'
                       'for local installer type')
-        return None
+        key_path = '/home/vagrant/.ssh/id_rsa'
+        return key_path
 
     def get_host_ip_from_hostname(self, hostname):
         self.log.info('Get host ip from host name in local installer......')
@@ -52,6 +53,21 @@ class LocalInstaller(BaseInstaller):
         self.log.info('Get host_ip:%s from host_name:%s in local installer'
                       % (host_ip, hostname))
         return host_ip
+
+    def get_vm_ip_from_vmname(self, vmname):
+        self.log.info('Get vm ip from vm name in local installer......')
+
+        cmd = " openstack server list --name doctor_vm0 -f value -c Networks | awk '{ print $1 }'" % (hostname)
+        server = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+        stdout, stderr = server.communicate()
+
+        msg = stdout.strip().decode("utf-8")
+        a, vm_ip = msg.split("=")
+        vm_ip = vm_ip.replace(",", "")
+
+        self.log.info('Get vm_ip:%s from vm_name:%s in local installer'
+                      % (vm_ip, vmname))
+        return vm_ip
 
     def set_apply_patches(self):
         self._set_nova_policy()

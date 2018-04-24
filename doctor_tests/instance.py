@@ -81,7 +81,7 @@ class Instance(object):
         for i in range(0, self.conf.instance_count):
             vm_name = "%s%d" % (self.conf.instance_basename, i)
             self.vm_names.append(vm_name)
-            
+
         self.servers = \
             {getattr(server, 'name'): server
              for server in self.nova.servers.list()}
