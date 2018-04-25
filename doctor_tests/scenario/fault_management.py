@@ -168,6 +168,8 @@ class FaultManagement(object):
         client = SSHClient(
             compute_ip,
             self.installer.node_user_name,
+            username='cirros',
+            password='cubswin:)',
             key_filename=self.installer.get_ssh_key_from_installer(),
             look_for_keys=True,
             log=self.log)
