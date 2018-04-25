@@ -175,7 +175,7 @@ class FaultManagement(object):
             look_for_keys=True,
             log=self.log)
 
-        client.ssh('echo "hello" >> /test ')
+        client.ssh('echo "hello"')
         self.log.info('in _set_link_down before scp')
         input('paused by user in _set_link_down, Pls check if the vm is down... Press something to go further')
         client.scp(file_name, 'disable_network.sh')
