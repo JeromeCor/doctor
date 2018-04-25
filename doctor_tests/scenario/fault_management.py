@@ -25,6 +25,8 @@ from doctor_tests.network import Network
 from doctor_tests.profiler_poc import main as profiler_main
 from doctor_tests.os_clients import nova_client
 
+import re
+
 
 LINK_DOWN_SCRIPT = """
 #!/bin/bash -x
@@ -176,12 +178,19 @@ class FaultManagement(object):
             look_for_keys=True,
             log=self.log)
 
-        client.ssh('echo "sudo ifdown eth0" > /tmp/cmd')
-        client.ssh('chmod +x /tmp/cmd')
-        client.ssh('chmod 777 /tmp/cmd')
+        #client.ssh('echo "sudo ifdown eth0" > /tmp/cmd')
+        #client.ssh('chmod +x /tmp/cmd')
+        #client.ssh('chmod 777 /tmp/cmd')
+
+        channel = client.invoke_shell()
         self.linkdown = time.time()
         input('paused by user... Press something to go further')
-        client.ssh('/tmp/cmd')
+        #command = '/tmp/cmd'
+        command = 'sudo ifdown eth0'
+        channel.send(command)
+        while not re.search(".*\[sudo\].*", channel.recv(1024)):
+            time.sleep(1)
+        channel.send("cubswin:)")
         self.log.info('eth0 from cirros has been shutdown at %s' % ( self.linkdown))
 
     def check_notification_time(self):
