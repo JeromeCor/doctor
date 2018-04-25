@@ -98,6 +98,8 @@ class SSHClient(object):
         ftp.close()
     def get_transport(self):
         return self.client.get_transport()
+    def invoke_shell(self):
+        return self.client.invoke_shell()
 
 def run_async(func):
     from threading import Thread
