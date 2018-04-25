@@ -56,8 +56,9 @@ class SSHClient(object):
     def __init__(self, ip, username, password=None, pkey=None,
                  key_filename=None, log=None, look_for_keys=False,
                  allow_agent=False):
+
         self.client = paramiko.SSHClient()
-        self.client.set_missing_host_key_policy(paramiko.WarningPolicy())
+        self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.client.connect(ip, username=username, password=password,
                             pkey=pkey, key_filename=key_filename,
                             look_for_keys=look_for_keys,
