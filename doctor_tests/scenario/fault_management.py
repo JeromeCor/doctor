@@ -162,6 +162,7 @@ class FaultManagement(object):
 
     def _set_link_down(self, compute_ip):
         self.log.info('in _set_link_down starting the disable of the network card')
+        input('paused by user in _set_link_down, Pls check if the vm is down... Press something to go further')
         file_name = '{0}/{1}'.format(self.test_dir, 'disable_network.sh')
         with open(file_name, 'w') as file:
             file.write(LINK_DOWN_SCRIPT.format(compute_ip=compute_ip))
