@@ -162,7 +162,7 @@ class FaultManagement(object):
 
     def _set_link_down(self, compute_ip):
         self.log.info('in _set_link_down starting the disable of the network card')
-        input('paused by user in _set_link_down, Pls check if the vm is down... Press something to go further')
+
         file_name = '{0}/{1}'.format(self.test_dir, 'disable_network.sh')
         with open(file_name, 'w') as file:
             file.write(LINK_DOWN_SCRIPT.format(compute_ip=compute_ip))
@@ -174,7 +174,10 @@ class FaultManagement(object):
             key_filename=self.installer.get_ssh_key_from_installer(),
             look_for_keys=True,
             log=self.log)
+
+        client.ssh('echo "hello" >> /test ')
         self.log.info('in _set_link_down before scp')
+        input('paused by user in _set_link_down, Pls check if the vm is down... Press something to go further')
         client.scp(file_name, 'disable_network.sh')
         self.log.info('in _set_link_down before command')
         command = 'bash disable_network.sh > disable_network.log 2>&1 &'
