@@ -60,6 +60,7 @@ class FaultManagement(object):
                                    self.inspector.get_inspector_url(),
                                    log)
         self.consumer = get_consumer(self.conf, log)
+        self.linkdown=None
 
     def setup(self):
         self.log.info('fault management setup......')
@@ -174,16 +175,10 @@ class FaultManagement(object):
             key_filename=self.installer.get_ssh_key_from_installer(),
             look_for_keys=True,
             log=self.log)
+        self.linkdown = time.time()
+        client.ssh('sudo ifdown eth0')
 
-        client.ssh('echo "hello"')
-        self.log.info('in _set_link_down before scp')
-        input('paused by user in _set_link_down, Pls check if the vm is down... Press something to go further')
-        client.scp(file_name, 'disable_network.sh')
-        self.log.info('in _set_link_down before command')
-        command = 'bash disable_network.sh > disable_network.log 2>&1 &'
-        client.ssh(command)
-        input('paused by user in _set_link_down, Pls check if the vm is down... Press something to go further')
-        self.log.info('in _set_link_down ending the function')
+        self.log.info('eth0 from cirros has been shutdown at %s' % ( self.linkdown))
 
     def check_notification_time(self):
         if self.consumer.notified_time is None \
@@ -208,9 +203,7 @@ class FaultManagement(object):
 
     def run_profiler(self):
 
-        net_down_log_file = self.get_disable_network_log()
-        reg = '(?<=doctor set link down at )\d+.\d+'
-        linkdown = float(match_rep_in_file(reg, net_down_log_file).group(0))
+        linkdown=self.linkdown
 
         vmdown = self.inspector.vm_down_time
         hostdown = self.inspector.host_down_time
