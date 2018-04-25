@@ -173,6 +173,7 @@ class FaultManagement(object):
             key_filename=self.installer.get_ssh_key_from_installer(),
             look_for_keys=True,
             log=self.log)
+        self.log.info('in _set_link_down before scp')
         client.scp(file_name, 'disable_network.sh')
         self.log.info('in _set_link_down before command')
         command = 'bash disable_network.sh > disable_network.log 2>&1 &'
