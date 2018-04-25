@@ -96,7 +96,8 @@ class SSHClient(object):
         elif method == 'get':
             ftp.get(source, dest)
         ftp.close()
-
+    def get_transport(self):
+        return self.client.get_transport()
 
 def run_async(func):
     from threading import Thread
