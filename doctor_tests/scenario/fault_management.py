@@ -175,9 +175,10 @@ class FaultManagement(object):
             key_filename=self.installer.get_ssh_key_from_installer(),
             look_for_keys=True,
             log=self.log)
-        self.linkdown = time.time()
-        client.ssh('sudo ifdown eth0')
 
+        client.ssh('echo "sudo ifdown eth0" > /tmp/cmd')
+        self.linkdown = time.time()
+        client.ssh('/tmp/cmd')
         self.log.info('eth0 from cirros has been shutdown at %s' % ( self.linkdown))
 
     def check_notification_time(self):
