@@ -71,6 +71,7 @@ class LocalInstaller(BaseInstaller):
 
         msg = stdout.strip().decode("utf-8")
         vm_ip2 =msg
+        vm_ip2 = vm_ip2.replace(",", "")
 
         vm_ip1_copy=vm_ip1
         try:
