@@ -39,7 +39,7 @@ class LocalInstaller(BaseInstaller):
     def get_ssh_key_from_installer(self):
         self.log.info('Assuming SSH keys already exchanged with computer'
                       'for local installer type')
-        key_path = '/home/vagrant/.ssh/id_rsa.pub'
+        key_path = '/home/vagrant/.ssh/id_rsa'
         return key_path
 
     def get_host_ip_from_hostname(self, hostname):
