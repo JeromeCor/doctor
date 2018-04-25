@@ -182,7 +182,7 @@ class FaultManagement(object):
         #client.ssh('chmod +x /tmp/cmd')
         #client.ssh('chmod 777 /tmp/cmd')
 
-        channel = client.invoke_shell()
+        #channel = client.invoke_shell()
         self.linkdown = time.time()
         input('paused by user... Press something to go further')
         #command = '/tmp/cmd'
@@ -204,7 +204,7 @@ class FaultManagement(object):
         # you have to check if you really need to send password here
         stdin.write('cubswin:)' + '\n')
         stdin.flush()
-        
+
         self.log.info('eth0 from cirros has been shutdown at %s' % ( self.linkdown))
 
     def check_notification_time(self):
