@@ -186,11 +186,25 @@ class FaultManagement(object):
         self.linkdown = time.time()
         input('paused by user... Press something to go further')
         #command = '/tmp/cmd'
-        command = 'sudo ifdown eth0'
+
+        '''command = 'sudo ifdown eth0'
         channel.send(command)
         while not re.search(".*\[sudo\].*", channel.recv(1024)):
             time.sleep(1)
-        channel.send("cubswin:)")
+        channel.send("cubswin:)")'''
+
+        transport = client.get_transport()
+        session = transport.open_session()
+        session.set_combine_stderr(True)
+        session.get_pty()
+        # for testing purposes we want to force sudo to always to ask for password. because of that we use "-k" key
+        session.exec_command("sudo ifdown eth0")
+        stdin = session.makefile('wb', -1)
+        stdout = session.makefile('rb', -1)
+        # you have to check if you really need to send password here
+        stdin.write('cubswin:)' + '\n')
+        stdin.flush()
+        
         self.log.info('eth0 from cirros has been shutdown at %s' % ( self.linkdown))
 
     def check_notification_time(self):
