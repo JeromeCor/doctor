@@ -167,7 +167,7 @@ class FaultManagement(object):
             file.write(LINK_DOWN_SCRIPT.format(compute_ip=compute_ip))
         client = SSHClient(
             compute_ip,
-            self.installer.node_user_name,
+            #self.installer.node_user_name,
             username='cirros',
             password='cubswin:)',
             key_filename=self.installer.get_ssh_key_from_installer(),
