@@ -131,6 +131,7 @@ class FaultManagement(object):
             self.check_host_status('up')
 
     def check_host_status(self, state):
+
         service = self.nova.services.list(host=self.down_host.name,
                                           binary='nova-compute')
         host_state = service[0].__dict__.get('state')
@@ -184,7 +185,7 @@ class FaultManagement(object):
 
         #channel = client.invoke_shell()
         self.linkdown = time.time()
-        input('paused by user... Press something to go further')
+
         #command = '/tmp/cmd'
 
         '''command = 'sudo ifdown eth0'
