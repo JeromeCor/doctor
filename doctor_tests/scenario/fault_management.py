@@ -190,7 +190,7 @@ class FaultManagement(object):
 
         command = 'sudo ifdown eth0'
         channel.send(command)
-        while not re.search(".*\[sudo\].*", channel.recv(1024)):
+        while not re.search(".*\[sudo\].*", channel.recv(1024).decode('utf-8')):
             time.sleep(1)
         channel.send("cubswin:)")
 
