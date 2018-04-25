@@ -62,8 +62,22 @@ class LocalInstaller(BaseInstaller):
         stdout, stderr = server.communicate()
 
         msg = stdout.strip().decode("utf-8")
-        _, vm_ip = msg.split("=")
-        vm_ip = vm_ip.replace(",", "")
+        _, vm_ip1 = msg.split("=")
+        vm_ip1 = vm_ip1.replace(",", "")
+
+        cmd = " openstack server list --name %s -f value -c Networks | awk '{ print $2 }'" % (vmname)
+        server = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+        stdout, stderr = server.communicate()
+
+        msg = stdout.strip().decode("utf-8")
+        vm_ip2 =msg
+
+        vm_ip1_copy=vm_ip1
+        x,y,z,t= vm_ip1.split(".")
+        if not(x=='' or y=='' or z=='' or t==''):
+            vm_ip=vm_ip1_copy
+        else :
+            vm_ip = vm_ip2
 
         self.log.info('Get vm_ip:%s from vm_name:%s in local installer'
                       % (vm_ip, vmname))
