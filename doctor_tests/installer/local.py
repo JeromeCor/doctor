@@ -73,10 +73,12 @@ class LocalInstaller(BaseInstaller):
         vm_ip2 =msg
 
         vm_ip1_copy=vm_ip1
-        x,y,z,t= vm_ip1.split(".")
-        if not(x=='' or y=='' or z=='' or t==''):
-            vm_ip=vm_ip1_copy
-        else :
+        try:
+            x,y,z,t= vm_ip1.split(".")
+            self.log.info('IP_V4 is the first one')
+            vm_ip = vm_ip1_copy
+        except Exception as e:
+            self.log.info('IP_V4 is the second one')
             vm_ip = vm_ip2
 
         self.log.info('Get vm_ip:%s from vm_name:%s in local installer'
