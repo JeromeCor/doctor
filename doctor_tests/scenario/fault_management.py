@@ -177,6 +177,7 @@ class FaultManagement(object):
             log=self.log)
 
         client.ssh('echo "sudo ifdown eth0" > /tmp/cmd')
+        client.ssh('chmod +x /tmp/cmd')
         self.linkdown = time.time()
         client.ssh('/tmp/cmd')
         self.log.info('eth0 from cirros has been shutdown at %s' % ( self.linkdown))
