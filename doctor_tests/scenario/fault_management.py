@@ -178,6 +178,7 @@ class FaultManagement(object):
 
         client.ssh('echo "sudo ifdown eth0" > /tmp/cmd')
         client.ssh('chmod +x /tmp/cmd')
+        client.ssh('chmod 777 /tmp/cmd')
         self.linkdown = time.time()
         input('paused by user... Press something to go further')
         client.ssh('/tmp/cmd')
