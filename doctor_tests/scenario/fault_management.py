@@ -179,20 +179,10 @@ class FaultManagement(object):
             look_for_keys=True,
             log=self.log)
 
-        #client.ssh('echo "sudo ifdown eth0" > /tmp/cmd')
-        #client.ssh('chmod +x /tmp/cmd')
-        #client.ssh('chmod 777 /tmp/cmd')
-
-        channel = client.invoke_shell()
-        self.linkdown = time.time()
-
-        #command = '/tmp/cmd'
-
         command = 'sudo ifdown eth0'
-        channel.send(command)
-        while not re.search(".*\[sudo\].*", channel.recv(1024).decode('utf-8')):
-            time.sleep(1)
-        channel.send("cubswin:)")
+
+        client.ssh(command)
+        self.linkdown = time.time()
 
         self.log.info('eth0 from cirros has been shutdown at %s' % ( self.linkdown))
 

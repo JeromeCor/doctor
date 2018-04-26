@@ -72,6 +72,10 @@ class SSHClient(object):
         if self.log:
             self.log.info("Executing: %s" % command)
         stdin, stdout, stderr = self.client.exec_command(command)
+
+        stdin.write('cubswin:)\n')
+        stdin.flush()
+
         ret = stdout.channel.recv_exit_status()
         output = list()
         for line in stdout.read().splitlines():
