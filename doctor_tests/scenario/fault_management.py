@@ -180,6 +180,12 @@ class FaultManagement(object):
             log=self.log)
 
         command = 'sudo ifconfig eth0 down'
+        cmd='echo "#!/bin/sh" > /tmp/script.sh'
+        client.ssh(cmd);
+        cmd = 'echo "sudo ifconfig eth0 down" >> /tmp/script.sh'
+        client.ssh(cmd);
+        client.ssh('chmod +x /tmp/script.sh');
+        client.ssh('chmod 777 /tmp/script.sh');
 
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -190,7 +196,7 @@ class FaultManagement(object):
         session = ssh.get_transport().open_session()
         session.set_combine_stderr(True)
         session.get_pty()
-        session.exec_command("sudo /bin/sh -c\"" + command + "\"")
+        session.exec_command("sudo /tmp/script.sh\"")
         stdin = session.makefile('wb', -1)
         stdout = session.makefile('rb', -1)
         stdin.write("cubswin:)" + '\n')
