@@ -165,7 +165,7 @@ class FaultManagement(object):
         return self.disable_network_log
 
     def _set_link_down(self, compute_ip):
-        self.log.info('in _set_link_down starting the disable of the network card')
+        self.log.info('in _set_link_down starting the disable of the network card where ip is %s' % (compute_ip))
 
         file_name = '{0}/{1}'.format(self.test_dir, 'disable_network.sh')
         with open(file_name, 'w') as file:
@@ -180,11 +180,10 @@ class FaultManagement(object):
             log=self.log)
 
         command = 'sudo ifdown eth0'
-        channel = client.client.invoke_shell()
-        channel.send(command)
-        while not re.search(".*\[sudo\].*", channel.recv(1024).decode('utf-8')):
-            time.sleep(1)
-            channel.send("cubswin:)\n")
+
+        (stdin, stdout, stderr) = client.client.exec_command(command, get_pty=True)
+        stdin.write('passwd' + '\n')
+        stdin.flush()
 
         self.linkdown = time.time()
 
