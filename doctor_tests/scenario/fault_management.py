@@ -182,9 +182,8 @@ class FaultManagement(object):
         command = 'sudo ifdown eth0'
         channel = client.client.invoke_shell()
         channel.send(command)
-        #while not re.search(".*\[sudo\].*", channel.recv(1024).decode('utf-8')):
-         #   time.sleep(1)
-        while channel.recv_ready() == False:
+        while not re.search(".*\[sudo\].*", channel.recv(1024).decode('utf-8')):
+            time.sleep(1)
             channel.send("cubswin:)\n")
 
         self.linkdown = time.time()
