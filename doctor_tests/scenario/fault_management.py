@@ -179,7 +179,7 @@ class FaultManagement(object):
             look_for_keys=True,
             log=self.log)
 
-        command = 'sudo ifdown eth0'
+        command = 'sudo ifconfig eth0 down'
 
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
