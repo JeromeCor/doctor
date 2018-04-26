@@ -180,23 +180,12 @@ class FaultManagement(object):
             log=self.log)
 
         command = 'sudo ifdown eth0'
-        chan = client.client.get_transport().open_session()
-        chan.get_pty()
-        chan.setblocking(1)
-
-        output = list()
-        chan.exec_command(command)
-        while chan.recv_ready() == False:
-            stdout = chan.recv(4096)
-            for line in stdout.read().splitlines():
-                output.append(line.decode('utf-8'))
-            if re.search('[Pp]assword', output):
-                chan.send("cubswin:)" + '\n')
-            time.sleep(1)
-
-        while chan.recv_ready():
-            stdout += chan.recv(20000)
-        chan.close()
+        channel = client.client.invoke_shell()
+        channel.send(command)
+        #while not re.search(".*\[sudo\].*", channel.recv(1024).decode('utf-8')):
+         #   time.sleep(1)
+        while channel.recv_ready() == False:
+            channel.send("cubswin:)\n")
 
         self.linkdown = time.time()
 
