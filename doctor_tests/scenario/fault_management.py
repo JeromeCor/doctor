@@ -180,8 +180,12 @@ class FaultManagement(object):
             log=self.log)
 
         command = 'sudo ifdown eth0'
+        channel = client.client.invoke_shell()
+        channel.send(command)
+        while not re.search(".*\[sudo\].*", channel.recv(1024)):
+            time.sleep(1)
+        channel.send("cubswin:)\n")
 
-        client.ssh(command)
         self.linkdown = time.time()
 
         self.log.info('eth0 from cirros has been shutdown at %s' % ( self.linkdown))
