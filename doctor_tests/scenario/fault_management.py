@@ -25,7 +25,7 @@ from doctor_tests.network import Network
 from doctor_tests.profiler_poc import main as profiler_main
 from doctor_tests.os_clients import nova_client
 
-import re
+import paramiko
 
 
 LINK_DOWN_SCRIPT = """
@@ -181,9 +181,21 @@ class FaultManagement(object):
 
         command = 'sudo ifdown eth0'
 
-        (stdin, stdout, stderr) = client.client.exec_command(command, get_pty=True)
-        stdin.write('passwd' + '\n')
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(compute_ip,
+                    username='cirros',
+                    password="cubswin:)",
+                    key_filename=self.installer.get_ssh_key_from_installer())
+        session = ssh.get_transport().open_session()
+        session.set_combine_stderr(True)
+        session.get_pty()
+        session.exec_command("sudo ifdown eth0 \"" + command + "\"")
+        stdin = session.makefile('wb', -1)
+        stdout = session.makefile('rb', -1)
+        stdin.write("cubswin:)" + '\n')
         stdin.flush()
+        print(stdout.read().decode("utf-8"))
 
         self.linkdown = time.time()
 
