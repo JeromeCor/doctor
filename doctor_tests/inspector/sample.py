@@ -107,11 +107,11 @@ class SampleInspector(BaseInspector):
 
     @utils.run_async
     def _disable_compute_host(self, hostname):
-        self.nova.services.force_down(hostname, 'nova-compute', True)
+        #self.nova.services.force_down(hostname, 'nova-compute', True)
 
-        hostdown_time = time.time()
+        hostdown_time = -1
         self.host_down_time = hostdown_time
-        self.log.info('doctor mark host(%s) down at %s'
+        self.log.info('doctor mark host(%s) down at %s  Note that hostdowntime is -1 because of the host is not tested'
                       % (hostname, hostdown_time))
 
     @utils.run_async
