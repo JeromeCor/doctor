@@ -184,10 +184,13 @@ class FaultManagement(object):
         chan.get_pty()
         chan.setblocking(1)
 
+        output = list()
         chan.exec_command(command)
         while chan.recv_ready() == False:
             stdout = chan.recv(4096)
-            if re.search('[Pp]assword', stdout):
+            for line in stdout.read().splitlines():
+                output.append(line.decode('utf-8'))
+            if re.search('[Pp]assword', output):
                 chan.send("cubswin:)" + '\n')
             time.sleep(1)
 
