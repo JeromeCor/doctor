@@ -199,13 +199,13 @@ class FaultManagement(object):
         session.exec_command("sudo /sbin/ifconfig eth0 down")
         stdin = session.makefile('wb', -1)
         stdout = session.makefile('rb', -1)
+        self.linkdown = time.time()
+
+        self.log.info('eth0 from cirros has been shutdown at %s' % (self.linkdown))
         stdin.write("cubswin:)" + '\n')
         stdin.flush()
         print(stdout.read().decode("utf-8"))
 
-        self.linkdown = time.time()
-
-        self.log.info('eth0 from cirros has been shutdown at %s' % ( self.linkdown))
 
     def check_notification_time(self):
         if self.consumer.notified_time is None \

@@ -117,7 +117,7 @@ class SampleInspector(BaseInspector):
     @utils.run_async
     def _vms_reset_state(self, state, hostname):
 
-        @utils.run_async
+        '''@utils.run_async
         def _vm_reset_state(nova, server, state):
             nova.servers.reset_state(server, state)
             vmdown_time = time.time()
@@ -130,11 +130,11 @@ class SampleInspector(BaseInspector):
             t = _vm_reset_state(nova, server, state)
             thrs.append(t)
         for t in thrs:
-            t.join()
+            t.join()'''
 
     @utils.run_async
     def _set_ports_data_plane_status(self, status, hostname):
-        body = {'data_plane_status': status}
+        '''body = {'data_plane_status': status}
 
         @utils.run_async
         def _set_port_data_plane_status(port_id):
@@ -148,7 +148,7 @@ class SampleInspector(BaseInspector):
             t = _set_port_data_plane_status(port_id)
             thrs.append(t)
         for t in thrs:
-            t.join()
+            t.join()'''
 
 
 class InspectorApp(Thread):
