@@ -20,7 +20,7 @@ from doctor_tests.identity_auth import get_session
 from doctor_tests.os_clients import nova_client
 from doctor_tests.os_clients import neutron_client
 from doctor_tests.inspector.base import BaseInspector
-
+from datetime import datetime
 
 class SampleInspector(BaseInspector):
     event_type = 'compute.host.down'
@@ -89,6 +89,34 @@ class SampleInspector(BaseInspector):
             if self.inspector_url.endswith('/') else \
             '%s%s' % (self.inspector_url, '/shutdown')
         requests.post(url, data='', headers=headers)
+    def get_consumer_url(self):
+        return 'http://%s:%s/events' % (self.conf.consumer.ip,
+                                        self.conf.consumer.port)
+    def report_error(self, hostname):
+        self.log.info('sample monitor report error......')
+        data = {
+            'time': datetime.now().isoformat(),
+            'type': self.event_type,
+            'details': {
+                'hostname': hostname,
+                'status': 'down',
+                'monitor': 'inspector_sample',
+                'monitor_event_id': 'inspector_sample_event1'
+            },
+        }
+
+        auth_token = self.session.get_token() if \
+            self.conf.inspector.type != 'sample' else None
+        headers = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-Auth-Token': auth_token,
+        }
+
+        requests.put(self.get_consumer_url(),
+                     data=json.dumps([data]),
+                     headers=headers)
+
 
     def handle_events(self, events):
         for event in events:
@@ -171,6 +199,7 @@ class InspectorApp(Thread):
                           % request.data)
             events = json.loads(request.data.decode('utf8'))
             self.inspector.handle_events(events)
+            self.inspector.report_error(self.hostname)
             return "OK"
 
         @app.route('/events/shutdown', methods=['POST'])
