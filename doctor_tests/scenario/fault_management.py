@@ -232,9 +232,9 @@ class FaultManagement(object):
             raise Exception('doctor fault management test failed, '
                             'notification_time=%s' % notification_time)
 
-        if self.conf.profiler_type:
+        '''if self.conf.profiler_type:
             self.log.info('run doctor fault management profile.......')
-            self.run_profiler()
+            self.run_profiler()'''
 
         self.run_display()
 
@@ -279,32 +279,26 @@ class FaultManagement(object):
 
 
         #Affichage
-        self.get_host_info_for_random_vm()
+
         print('_________________________________________________________________________________________________________')
         print('The fault management for the network interface of the VM %s is sucessfuly finished\n'%self.old_down_host.name)
         print('\nNIC is disabled at 0\n')
-        print('         |  |\n')
-        print('         |  |\n')
-        print('         \  /\n')
-        print('          \/\n')
+        print('         ||\n')
+        print('         \/\n')
         print('Monitor detects at %s\n' %str(relative_detected))
-        print('         |  |\n')
-        print('         |  |\n')
-        print('         \  /\n')
-        print('          \/\n')
+        print('         ||\n')
+        print('         \/\n')
         print('\nInspector receives at %s\n' % str(relative_vmdown)) #todo : récupérer le timing
-        print('         |  |\n')
-        print('         |  |\n')
-        print('         \  /\n')
-        print('          \/\n')
+        print('         ||\n')
+        print('         \/\n')
         print('\nConsumer is notified at %s\n' % str(relative_notified))
-        print('         |  |\n')
-        print('         |  |\n')
-        print('         \  /\n')
-        print('          \/\n')
+        print('         ||\n')
+        print('         \/\n')
         print('\nVM is rebooted at %s\n' % str(relative_vmup))
+        print('_________________________________________________________________________________________________________')
+        print('Resume :')
         print('\nThe fault has been notified after %s seconds\n'%str(relative_notified) )
-        print('The vm is available after %s seconds\n'%str(relative_notified) )
+        print('The vm is available after %s seconds\n'%str(relative_vmup) )
         print('The vm (%s) has been migrated from %s to %s\n'%(self.old_down_host.name, self.old_down_host.ip, self.down_host.ip))
         print('_________________________________________________________________________________________________________')
         input('paused by user... Press something to finish the test')

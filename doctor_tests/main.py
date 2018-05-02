@@ -76,6 +76,7 @@ class DoctorTest(object):
 
             self.fault_management.instance.restart()
             self.fault_management.vm_uptime=time.time()
+            self.fault_management.down_host = self.get_host_info_for_random_vm()
             # self.fault_management.check_host_status('down')
             LOG.info('before check_notification_time')
 
