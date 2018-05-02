@@ -199,7 +199,7 @@ class InspectorApp(Thread):
                           % request.data)
             events = json.loads(request.data.decode('utf8'))
             self.inspector.handle_events(events)
-            self.inspector.report_error(self.hostname)
+            self.inspector.report_error("doctor_vm0")
             return "OK"
 
         @app.route('/events/shutdown', methods=['POST'])
