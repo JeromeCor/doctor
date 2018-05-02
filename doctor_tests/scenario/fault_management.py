@@ -205,6 +205,10 @@ class FaultManagement(object):
         stdin.write("cubswin:)" + '\n')
         stdin.flush()
         print(stdout.read().decode("utf-8"))
+        ret = stdout.channel.recv_exit_status()
+        output = list()
+        
+        self.log.info("*** SUCCESSFULLY run command %s" % command)
 
 
     def check_notification_time(self):
