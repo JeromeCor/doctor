@@ -75,7 +75,7 @@ class DoctorTest(object):
             # NOTE (umar) copy remote monitor.log file when monitor=collectd
             LOG.info('before check_host_status')
 
-            self.fault_management.check_host_status('down')
+            # self.fault_management.check_host_status('down')
             LOG.info('before check_notification_time')
 
             self.fault_management.check_notification_time()
