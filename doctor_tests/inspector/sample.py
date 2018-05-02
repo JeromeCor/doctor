@@ -113,7 +113,7 @@ class SampleInspector(BaseInspector):
         self.host_down_time = hostdown_time
         self.log.info('doctor mark host(%s) down at %s  Note that hostdowntime is -1 because of the host is not tested'
                       % (hostname, hostdown_time))
-
+        self.vm_down_time= time.time()
     @utils.run_async
     def _vms_reset_state(self, state, hostname):
 
@@ -134,7 +134,7 @@ class SampleInspector(BaseInspector):
 
     @utils.run_async
     def _set_ports_data_plane_status(self, status, hostname):
-        '''body = {'data_plane_status': status}
+        body = {'data_plane_status': status}
 
         @utils.run_async
         def _set_port_data_plane_status(port_id):
@@ -148,7 +148,7 @@ class SampleInspector(BaseInspector):
             t = _set_port_data_plane_status(port_id)
             thrs.append(t)
         for t in thrs:
-            t.join()'''
+            t.join()
 
 
 class InspectorApp(Thread):

@@ -104,6 +104,35 @@ class Instance(object):
 
         self.log.info('instance delete end.......')
 
+    def restart(self):
+        self.log.info('instance restart start.......')
+
+        for vm_name in self.vm_names:
+            if vm_name in self.servers:
+                self.nova.servers.delete(self.servers[vm_name])
+                time.sleep(0.1)
+
+        # check that all vms are deleted
+        while self.nova.servers.list():
+            time.sleep(0.1)
+        self.servers.clear()
+
+        time.sleep(0.5)
+
+        os.system('/vagrant/openstack-scripts-sfc_newton_demo/simple_vms.sh')
+        time.sleep(10)
+
+        for i in range(0, self.conf.instance_count):
+            vm_name = "%s%d" % (self.conf.instance_basename, i)
+            self.vm_names.append(vm_name)
+
+        self.servers = \
+            {getattr(server, 'name'): server
+             for server in self.nova.servers.list()}
+
+        self.log.info('instance restart end.......')
+
+
     def wait_for_vm_launch(self):
         self.log.info('wait for vm launch start......')
 

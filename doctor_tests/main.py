@@ -73,8 +73,9 @@ class DoctorTest(object):
 
             # verify the test results
             # NOTE (umar) copy remote monitor.log file when monitor=collectd
-            LOG.info('before check_host_status')
 
+            self.fault_management.instance.restart()
+            self.fault_management.vm_uptime=time.time()
             # self.fault_management.check_host_status('down')
             LOG.info('before check_notification_time')
 
