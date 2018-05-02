@@ -65,7 +65,7 @@ class SampleInspector(BaseInspector):
                               % (server, e))
 
     def get_inspector_url(self):
-        return 'http://%s:%s/failure' % (self.conf.inspector.ip,
+        return 'http://%s:%s/events' % (self.conf.inspector.ip,
                                         self.conf.inspector.port)
 
     def start(self):
@@ -90,7 +90,7 @@ class SampleInspector(BaseInspector):
             '%s%s' % (self.inspector_url, '/shutdown')
         requests.post(url, data='', headers=headers)
     def get_consumer_url(self):
-        return 'http://%s:%s/events' % (self.conf.consumer.ip,
+        return 'http://%s:%s/failure' % (self.conf.consumer.ip,
                                         self.conf.consumer.port)
     def report_error(self, hostname):
         self.log.info('sample inspector report error...... url= %s' %self.get_consumer_url())
