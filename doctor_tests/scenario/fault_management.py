@@ -203,7 +203,9 @@ class FaultManagement(object):
 
         self.log.info('eth0 from cirros has been shutdown at %s' % (self.linkdown))
         stdin.write("cubswin:)" + '\n')
+        self.log.info("*** pass" )
         stdin.flush()
+        self.log.info("*** mand %s" )
         print(stdout.read().decode("utf-8"))
         ret = stdout.channel.recv_exit_status()
         output = list()
