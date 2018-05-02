@@ -206,9 +206,8 @@ class FaultManagement(object):
         self.log.info("*** pass" )
         stdin.flush()
         self.log.info("*** mand %s" )
-        print(stdout.read().decode("utf-8"))
-        ret = stdout.channel.recv_exit_status()
-        output = list()
+        # print(stdout.read().decode("utf-8"))
+        # ret = stdout.channel.recv_exit_status()
 
         self.log.info("*** SUCCESSFULLY run command %s" % command)
 
