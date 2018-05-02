@@ -26,6 +26,7 @@ from doctor_tests.profiler_poc import main as profiler_main
 from doctor_tests.os_clients import nova_client
 
 import paramiko
+import copy
 
 
 LINK_DOWN_SCRIPT = """
@@ -63,6 +64,7 @@ class FaultManagement(object):
                                    log)
         self.consumer = get_consumer(self.conf, log)
         self.linkdown=None
+        self.vm_uptime=None
 
     def setup(self):
         self.log.info('fault management setup......')
@@ -86,6 +88,7 @@ class FaultManagement(object):
         self.inspector.start()
         self.consumer.start()
         self.down_host = self.get_host_info_for_random_vm()
+        self.old_down_host=copy.copy(self.down_host)
         self.monitor.start(self.down_host)
 
     def start(self):
@@ -233,6 +236,8 @@ class FaultManagement(object):
             self.log.info('run doctor fault management profile.......')
             self.run_profiler()
 
+        self.run_display()
+
     def run_profiler(self):
 
         linkdown=self.linkdown
@@ -252,8 +257,34 @@ class FaultManagement(object):
         os.environ['DOCTOR_PROFILER_T03'] = (
             str(int((vmdown - relative_start) * 1000)))
         os.environ['DOCTOR_PROFILER_T04'] = (
-            str(int((hostdown - relative_start) * 1000)))
+            str(int(-1)))
         os.environ['DOCTOR_PROFILER_T09'] = (
             str(int((notified - relative_start) * 1000)))
 
         profiler_main(log=self.log)
+
+    def run_display(self):
+        #Timers
+
+        linkdown = self.linkdown
+        vmdown = self.inspector.vm_down_time
+        vmup=self.vm_uptime
+        detected = self.monitor.detected_time
+        notified = self.consumer.notified_time
+
+        relative_vmdown = float(int((vmdown - linkdown) * 1000) / 1000)
+        relative_detected = float(int((detected - linkdown) * 1000) / 1000)
+        relative_notified = float(int((notified-linkdown)*1000)/1000)
+        relative_vmup = float(int((vmup - linkdown) * 1000) / 1000)
+
+
+        #Affichage
+        self.get_host_info_for_random_vm()
+        print('The fault management for the network interface of the VM %s sucessfuly finished\n'%self.old_down_host.name)
+        print('\nThe total time cost for the detection = %s\n'%relative_notified )
+
+        print('\nTest starts at 0\n')
+
+        print('\nThe total time cost for the detection = %s\n' % relative_notified)
+
+        print(relative_vmdown, " ", relative_detected, " ", relative_notified, " ", relative_vmup)
