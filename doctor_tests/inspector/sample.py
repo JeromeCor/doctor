@@ -93,7 +93,7 @@ class SampleInspector(BaseInspector):
         return 'http://%s:%s/events' % (self.conf.consumer.ip,
                                         self.conf.consumer.port)
     def report_error(self, hostname):
-        self.log.info('sample monitor report error......')
+        self.log.info('sample inspector report error...... url= %s' %self.get_consumer_url())
         data = {
             'time': datetime.now().isoformat(),
             'type': self.event_type,
