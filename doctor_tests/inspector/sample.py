@@ -65,7 +65,7 @@ class SampleInspector(BaseInspector):
                               % (server, e))
 
     def get_inspector_url(self):
-        return 'http://%s:%s/events' % (self.conf.inspector.ip,
+        return 'http://%s:%s/failure' % (self.conf.inspector.ip,
                                         self.conf.inspector.port)
 
     def start(self):
