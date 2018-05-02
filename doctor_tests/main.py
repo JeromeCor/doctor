@@ -74,10 +74,10 @@ class DoctorTest(object):
             # verify the test results
             # NOTE (umar) copy remote monitor.log file when monitor=collectd
             LOG.info('before check_host_status')
-            input('paused by user... Press something to go further')
+
             self.fault_management.check_host_status('down')
             LOG.info('before check_notification_time')
-            input('paused by user... Press something to go further')
+
             self.fault_management.check_notification_time()
 
         except Exception as e:

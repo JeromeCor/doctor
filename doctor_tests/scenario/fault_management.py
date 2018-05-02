@@ -207,7 +207,7 @@ class FaultManagement(object):
         print(stdout.read().decode("utf-8"))
         ret = stdout.channel.recv_exit_status()
         output = list()
-        
+
         self.log.info("*** SUCCESSFULLY run command %s" % command)
 
 
