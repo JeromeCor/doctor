@@ -113,9 +113,9 @@ class SampleInspector(BaseInspector):
             'X-Auth-Token': auth_token,
         }
 
-        requests.put(self.get_consumer_url(),
-                     data=json.dumps([data]),
-                     headers=headers)
+        requests.post(self.get_consumer_url(),
+                      data=json.dumps([data]),
+                      headers=headers)
 
 
     def handle_events(self, events):
