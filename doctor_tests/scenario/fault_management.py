@@ -307,3 +307,4 @@ class FaultManagement(object):
         print('The vm is available after %s seconds\n'%str(relative_notified) )
         print('The vm (%s) has been migrated from %s to %s\n'%(self.old_down_host.name, self.old_down_host.ip, self.down_host.ip))
         print('_________________________________________________________________________________________________________')
+        input('paused by user... Press something to finish the test')
